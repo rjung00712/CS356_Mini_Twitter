@@ -9,13 +9,13 @@ import static com.sun.glass.ui.Cursor.setVisible;
  * Created by Richard on 11/2/16.
  */
 public class UserViewPanel extends JFrame {
-    private JTextArea textArea1;
-    private JButton button1;
-    private JList list1;
-    private JTextArea textArea2;
-    private JButton button2;
-    private JList list2;
+    private JTextArea UserIdTextArea;
+    private JList currentFollowingListView;
+    private JTextArea TweetMessageTextArea;
+    private JButton postTweetButton;
+    private JList newsFeedListView;
     private JPanel panel2;
+    private JButton followUserButton;
 
     public UserViewPanel() {
         super();
@@ -28,4 +28,5 @@ public class UserViewPanel extends JFrame {
 
         setVisible(true);
     }
+
 }
