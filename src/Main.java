@@ -1,4 +1,4 @@
-import Controller.TwitterController;
+import Controller.Controller;
 import GUI.Panels.AdminControlPanel;
 
 
@@ -8,9 +8,9 @@ import GUI.Panels.AdminControlPanel;
 public class Main {
 
     public static void main(String args[]) {
-//        AdminControlPanel ad = AdminControlPanel.getInstance();
+        AdminControlPanel ad = AdminControlPanel.getInstance();
 
-        TwitterController tc = TwitterController.getInstance();
+//        Controller tc = Controller.getInstance();
 
 //        UserViewPanel uv = new UserViewPanel();
 //        rAdminControlUI ad;

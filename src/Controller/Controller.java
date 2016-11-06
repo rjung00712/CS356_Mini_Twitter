@@ -4,10 +4,10 @@ import GUI.Panels.AdminControlPanel;
 import Model.UserComponent;
 import Model.UserComposite;
 import Model.UserLeaf;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +15,9 @@ import java.util.List;
  *
  * Created by Richard on 11/5/16.
  */
-public class TwitterController {
-
-    private static TwitterController instance = null;
+public class Controller {
+    // singleton instance of Controller class
+    private static Controller instance = null;
 
     private AdminControlPanel adminPanel;
 
@@ -25,26 +25,19 @@ public class TwitterController {
 
     private static final UserComponent ROOT = new UserComposite("Root");
 
-    private TwitterController() {   // constructor
-        adminPanel = AdminControlPanel.getInstance();
+    private List<String> listOfUsers = new ArrayList<>();
+    private List<String> listofGroups = new ArrayList<>();
 
-        // creates and displays the admin control panel
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                adminPanel.setVisible(true);
-            }
-        });
-
+    private Controller() {   // constructor
         init();
     }
 
     // returns the static single instance of this class
-    public static TwitterController getInstance() {
+    public static Controller getInstance() {
         if(instance == null) {
-            synchronized (TwitterController.class) {
+            synchronized (Controller.class) {
                 if(instance == null) {
-                    instance = new TwitterController();
+                    instance = new Controller();
                 }
             }
         }
@@ -79,9 +72,25 @@ public class TwitterController {
 //        List<UserComponent> followers = cs356.getFollowers();
 
 
-        adminPanel.setTree(root);
+//        adminPanel.setTree(root);
 
     }
 
+    public void addUserId(String id) {
+        listOfUsers.add(id);
+    }
 
+    public void addGroupId(String id) {
+        listofGroups.add(id);
+    }
+
+    // checks if user already exists
+    public boolean userExists(String id) {
+        return (listOfUsers.contains(id) ? true : false);
+    }
+
+    // checks if group already exists
+    public boolean groupExists(String id) {
+        return (listofGroups.contains(id) ? true : false);
+    }
 }

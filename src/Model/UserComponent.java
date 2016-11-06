@@ -1,28 +1,20 @@
 package Model;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.List;
+import javax.swing.tree.MutableTreeNode;
 
 /**
  * Created by Richard on 11/5/16.
  */
-public abstract class UserComponent {
+public interface UserComponent {
+    
+    public UserComponent getUser();
 
-    private String id;
+    public void add(UserComponent component);
 
-    public UserComponent(String id) {
-        this.id = id;
-    }
+    MutableTreeNode getTree();
 
-    public UserComponent getUser() {
-        return this;
-    }
+    //MutableTreeNode getTree();
 
-    @Override
-    public String toString() {
-        return this.id;
-    }
-
-    public abstract void add(UserComponent userComponent);
-    public abstract DefaultMutableTreeNode getTree();
+//    public abstract void add(UserComponent userComponent);
+//    public abstract DefaultMutableTreeNode getTree();
 }

@@ -1,6 +1,8 @@
 package GUI.Panels;
 
-import Controller.TwitterController;
+import Controller.Controller;
+import Model.UserLeaf;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -33,6 +35,7 @@ public class AdminControlPanel extends JFrame {
     private JTextArea textAreaGroupId;
 
     private String userId;
+    Controller controller = Controller.getInstance();
 
     // private constructor extending JFrame class
     private AdminControlPanel() {
@@ -44,14 +47,9 @@ public class AdminControlPanel extends JFrame {
         setContentPane(panel1);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setVisible(true);
+        setVisible(true);
 
-        addUserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                userId = textAreaUserId.getText();
-            }
-        });
+        initUI();
     }
 
     // double checked locking to maintain single thread calls
@@ -60,6 +58,45 @@ public class AdminControlPanel extends JFrame {
             instance = new AdminControlPanel();
         }
         return instance;
+    }
+
+    public void initUI() {
+        addUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = textAreaUserId.getText().trim();
+
+                if(id.equals("")) {
+                    JOptionPane.showMessageDialog(null, "ID is blank");
+                } else if(controller.userExists(id)) {
+                    JOptionPane.showMessageDialog(null, "User already exists");
+                    textAreaUserId.setText("");
+                } else {
+                    controller.addUserId(id);
+                    textAreaUserId.setText("");
+                }
+            }
+        });
+
+        addGroupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                String id = textAreaGroupId.getText().trim();
+
+                if(id.equals("")) {
+                    JOptionPane.showMessageDialog(null, "ID is blank");
+                } else if()
+
+            }
+        });
+
+        openUserViewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserViewPanel userViewPanel = new UserViewPanel();
+            }
+        });
     }
 
     public void setTree(DefaultMutableTreeNode root) {

@@ -3,33 +3,26 @@ package Model;
 import javax.security.auth.Subject;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Richard on 11/3/16.
  */
-public class UserLeaf extends UserComponent implements Observer implements Subject {
-
+public class UserLeaf extends Observable implements UserComponent, Observer {
     private String userId;
-    private List<UserComponent> followers;
-    private List<UserComponent> followings;
-    private List<String> twitterMessages;
+    private List<String> followers;
+    private List<String> followings;
+    private List<String> newsFeed;
 
     public UserLeaf(String userId) {
-        super(userId);
+//        super(userId);
         this.userId = userId;
     }
 
-    // adds a follower to user's list of followers
-    public void addFollower(UserComponent follower) {
-        followers.add(follower);
-    }
-
-    public List<UserComponent> getFollowers() {
-        return this.followers;
-    }
-
-    public DefaultMutableTreeNode getTree() {
-        return new DefaultMutableTreeNode(this);
+    @Override
+    public UserComponent getUser() {
+        return null;
     }
 
     // user can't add another user
@@ -38,8 +31,46 @@ public class UserLeaf extends UserComponent implements Observer implements Subje
         throw new UnsupportedOperationException("can't add user to user!");
     }
 
-    @Override
     public void update(Subject subject) {
 
+    }
+
+    @Override
+    public String toString() {
+        return this.userId;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+
+    // adds a follower to user's list of followers
+    public void addFollower(String follower) {
+        this.followers.add(follower);
+    }
+
+    public void addFollowings(String following) {
+        this.followings.add(following);
+    }
+
+    public void addNewsFeed(String message) {
+        this.newsFeed.add(message);
+    }
+
+    public List<String> getFollowers() {
+        return this.followers;
+    }
+
+    public List<String> getFollowings() {
+        return this.followings;
+    }
+
+    public List<String> getNewFeed() {
+        return this.newsFeed;
+    }
+
+    public DefaultMutableTreeNode getTree() {
+        return new DefaultMutableTreeNode(this);
     }
 }
