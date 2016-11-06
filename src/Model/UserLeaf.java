@@ -2,6 +2,7 @@ package Model;
 
 import javax.security.auth.Subject;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -69,6 +70,11 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
     public List<String> getNewFeed() {
         return this.newsFeed;
     }
+
+    public void add(DefaultMutableTreeNode node) {
+        node.add(new DefaultMutableTreeNode(userId));
+    }
+
 
     public DefaultMutableTreeNode getTree() {
         return new DefaultMutableTreeNode(this);

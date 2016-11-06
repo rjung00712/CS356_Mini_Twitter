@@ -1,11 +1,14 @@
 package GUI.Panels;
 
 import Controller.Controller;
+import Model.UserComponent;
+import Model.UserComposite;
 import Model.UserLeaf;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,12 +37,26 @@ public class AdminControlPanel extends JFrame {
     private JTextArea textAreaUserId;
     private JTextArea textAreaGroupId;
 
+    private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+    private DefaultTreeModel treeModel= new DefaultTreeModel(root);
+
     private String userId;
     Controller controller = Controller.getInstance();
+
+    private static UserComposite userGroup;
+    private static UserLeaf user;
 
     // private constructor extending JFrame class
     private AdminControlPanel() {
         super();
+
+        tree = new JTree(treeModel);
+        tree.setEditable(true);
+
+        TreeSelectionModel tsm = tree.getSelectionModel();
+        tsm.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+        treeModel.reload(root);
 
         // all the descriptions and placement of GUI components
         setPreferredSize(new Dimension(600, 400));
@@ -64,6 +81,7 @@ public class AdminControlPanel extends JFrame {
         addUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 String id = textAreaUserId.getText().trim();
 
                 if(id.equals("")) {
@@ -72,9 +90,12 @@ public class AdminControlPanel extends JFrame {
                     JOptionPane.showMessageDialog(null, "User already exists");
                     textAreaUserId.setText("");
                 } else {
+                    user = new UserLeaf(id);
+                    user.add(root);
                     controller.addUserId(id);
                     textAreaUserId.setText("");
                 }
+                treeModel.reload(root);
             }
         });
 
@@ -86,7 +107,23 @@ public class AdminControlPanel extends JFrame {
 
                 if(id.equals("")) {
                     JOptionPane.showMessageDialog(null, "ID is blank");
-                } else if()
+                } else if(controller.groupExists(id)) {
+                    JOptionPane.showMessageDialog(null, "Group already exists");
+                    textAreaGroupId.setText("");
+                } else if(controller.userExists(id) || controller.userExists(treeNode.toString())) {
+                    JOptionPane.showMessageDialog(null, "This is a user");
+                    textAreaGroupId.setText("");
+                } else {
+                    if(treeNode != root) {
+                        root = treeNode;    // set the current node as the subroot
+                    }
+                    userGroup = new UserComposite(id);
+
+                    DefaultMutableTreeNode subroot = new DefaultMutableTreeNode(id);
+                    userGroup.add(treeModel, root, subroot);
+                    textAreaGroupId.setText("");
+                    treeModel.reload(root);
+                }
 
             }
         });

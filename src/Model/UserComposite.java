@@ -33,10 +33,10 @@ public class UserComposite implements UserComponent {
         return root;
     }
 
-//    @Override
-//    public void add(UserComponent userComponent) {
-//        followers.add(userComponent);
-//    }
+    @Override
+    public void add(DefaultMutableTreeNode node) {
+
+    }
 
     @Override
     public String toString() {
