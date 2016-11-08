@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.PositiveMessages;
 import GUI.Panels.AdminControlPanel;
 import GUI.Panels.UserViewPanel;
 import com.sun.tools.corba.se.idl.constExpr.Positive;
@@ -9,8 +10,19 @@ import com.sun.tools.corba.se.idl.constExpr.Positive;
  */
 public interface Visitor {
 
-    public void visit(AdminControlPanel admin);
+    public void visit(PositiveMessages admin);
+
     public void visit(UserLeaf user);
+
     public void visit(UserViewPanel userViewPanel);
-//    public void visit(PositiveMessage message);
+
+    public void visit(AdminControlPanel adminControlPanel);
+
+    public void visit(PositiveMessages positiveMessages);
+
+    public int getPositiveMessages();
+
+    public int getUserTotal();
+//    public int getGroupTotal();
+//    public int getMessageTotal();
 }

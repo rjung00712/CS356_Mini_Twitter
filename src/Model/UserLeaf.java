@@ -12,6 +12,11 @@ import java.util.Observer;
  */
 public class UserLeaf extends Observable implements UserComponent, Observer {
     private String userId;
+
+    //////////////////////////////
+    private String message;
+    ///////////////////////////
+
     private List<String> followers;
     private List<String> followings;
     private List<String> newsFeed;
@@ -46,6 +51,13 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
 
     }
 
+    //////////////////
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+    //////////////
+
+
     // adds a follower to user's list of followers
     public void addFollower(String follower) {
         this.followers.add(follower);
@@ -71,8 +83,16 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
         return this.newsFeed;
     }
 
+    /////////////////////
+    public void setFeed(String tweet) {
+        this.message = userId + ": " + tweet;
+        setChanged();
+        notifyObservers(message);
+    }
+    //////////////////
+
     public void add(DefaultMutableTreeNode node) {
-        node.add(new DefaultMutableTreeNode(userId));
+        node.add(new DefaultMutableTreeNode(this.userId));
     }
 
 
