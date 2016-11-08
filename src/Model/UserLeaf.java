@@ -3,6 +3,7 @@ package Model;
 import javax.security.auth.Subject;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,9 +18,9 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
     private String message;
     ///////////////////////////
 
-    private List<String> followers;
-    private List<String> followings;
-    private List<String> newsFeed;
+    private List<String> followers = new ArrayList<>();
+    private List<String> followings = new ArrayList<>();
+    private List<String> newsFeed = new ArrayList<>();
 
     public UserLeaf(String userId) {
 //        super(userId);
@@ -94,7 +95,6 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
     public void add(DefaultMutableTreeNode node) {
         node.add(new DefaultMutableTreeNode(this.userId));
     }
-
 
     public DefaultMutableTreeNode getTree() {
         return new DefaultMutableTreeNode(this);

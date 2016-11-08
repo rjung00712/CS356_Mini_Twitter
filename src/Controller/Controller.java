@@ -36,8 +36,8 @@ public class Controller implements Visitor {
 
     private static final UserComponent ROOT = new UserComposite("Root");
 
-    private List<String> listOfUsers = new ArrayList<>();
-    private List<String> listofGroups = new ArrayList<>();
+    private static List<String> listOfUsers = new ArrayList<>();
+    private static List<String> listofGroups = new ArrayList<>();
 
     // constructor
     private Controller() {}

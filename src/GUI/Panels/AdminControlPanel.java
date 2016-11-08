@@ -112,6 +112,7 @@ public class AdminControlPanel extends JFrame {
                     root = node;
                     user = new UserLeaf(id);
                     user.add(root);
+                    userTable.put(id, user);
                     controller.addUserId(id);
                     textAreaUserId.setText("");
                 }
