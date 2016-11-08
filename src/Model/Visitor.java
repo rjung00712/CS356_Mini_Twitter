@@ -10,8 +10,6 @@ import com.sun.tools.corba.se.idl.constExpr.Positive;
  */
 public interface Visitor {
 
-    public void visit(PositiveMessages admin);
-
     public void visit(UserLeaf user);
 
     public void visit(UserViewPanel userViewPanel);
@@ -23,6 +21,8 @@ public interface Visitor {
     public int getPositiveMessages();
 
     public int getUserTotal();
-//    public int getGroupTotal();
-//    public int getMessageTotal();
+
+    public int getGroupTotal();
+
+    public int getMessageTotal();
 }

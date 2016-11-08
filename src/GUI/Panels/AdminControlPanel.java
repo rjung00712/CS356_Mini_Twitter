@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.lang.*;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
+
 /**
  * This is the GUI panel and its attributes for the admin
  * control panel UI. This class is based off the Singleton
@@ -167,9 +169,36 @@ public class AdminControlPanel extends JFrame {
                 JOptionPane.showMessageDialog(null, "User Total: " + userTotal);
             }
         });
+
+        // implements show group total button functionality
+        showGroupTotalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int groupTotal = controller.getGroupTotal();
+                JOptionPane.showMessageDialog(null, "Group Total: " + groupTotal);
+            }
+        });
+
+        // implements show message total button functionality
+        showMessagesTotalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int messageTotal = controller.getMessageTotal();
+                JOptionPane.showMessageDialog(null, "Message Total: " + messageTotal);
+            }
+        });
+
+        // implements show message total button functionality
+        showPositivePercentageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String positivePercentage = controller.findPositivePercentage();
+                JOptionPane.showMessageDialog(null, positivePercentage + "%");
+            }
+        });
     }
 
-    public static UserLeaf getHashUIValue(String key) {
+    public static UserLeaf getHashValue(String key) {
         return userTable.get(key);
     }
 

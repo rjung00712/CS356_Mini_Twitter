@@ -1,8 +1,7 @@
 package GUI.Panels;
 
-import Controller.Controller;
-import Model.UserLeaf;
-import com.sun.tools.classfile.ReferenceFinder;
+import Controller.*;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +11,9 @@ import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
-import static com.sun.glass.ui.Cursor.setVisible;
-
 /**
+ * This is GUI class for UserView Panel
+ * <p>
  * Created by Richard on 11/2/16.
  */
 public class UserViewPanel extends JFrame implements Observer {
@@ -31,117 +30,79 @@ public class UserViewPanel extends JFrame implements Observer {
 
     private Controller controller = Controller.getInstance();
 
-    ////////////////////////////////////////
     private String userName;
     private String userMessage;
     private Hashtable<String, UserLeaf> table;
-//    private PositiveMessages posMsg = new PositiveMessages();
-
-//    public UserUI(String name, Hashtable<String,User> hashtable){
-//        this.userName = name;
-//        this.table = hashtable;
-//        initialize(userName);
-//        frame.setVisible(true);
-//    }
-
-
-//    private JTextField userID, msg;   -> userTextIdTextArea
-//    private JList<String> currentFollowing, newsFeed;    ->currentFollowingListView, newsFeedListView
+    private PositiveMessages positiveMessages = new PositiveMessages();
 
     private DefaultListModel<String> followingList = new DefaultListModel<String>();
     private DefaultListModel<String> tweets = new DefaultListModel<String>();
     private UserLeaf user = new UserLeaf(userName);
-
-    /////////////////////////////////////
-
 
     public UserViewPanel(String name, Hashtable<String, UserLeaf> hashtable) {
         super();
         this.userName = name;
         this.table = hashtable;
 
+        $$$setupUI$$$();
         initUI();
     }
 
     public void initUI() {
         setPreferredSize(new Dimension(400, 300));
-//        setLocationRelativeTo(null);
-        /////////////////////////////////
-        currentFollowingListView = new JList<String>(followingList);
-        JScrollPane scrollPane1 = new JScrollPane(currentFollowingListView);
-
-        newsFeedListView = new JList<String>(tweets);
-        JScrollPane scrollPane2 = new JScrollPane(newsFeedListView);
-
-//        JLabel jlab1 = new JLabel("Current Following");
-//        JLabel jlab2 = new JLabel("News Feed");
-
-        //////////////////////////////
-
-
-        currentFollowingPanel.add(scrollPane1);
-        newsFeedPanel.add(scrollPane2);
-
         setContentPane(panel2);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-
+        // implementing post tweet button functionality and checking for
+        // positive words for calculating percentage
         postTweetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ////////////////////////////////////////
-//                accept(TwitterStats.getInstance());
-
+                accept(Controller.getInstance());
                 String message = tweetMessageTextArea.getText();
-//                posMsg.checkMessage(message);
-
+                positiveMessages.hasPositive(message);
                 String tweet = userName + ": " + message;
                 tweets.addElement(message);
                 tweetMessageTextArea.setText("");
                 user.addNewsFeed(message);
-
                 table.get(userName).setFeed(message);
-//                System.out.println("you posted a tweet");
             }
         });
-        ///////////////////////////////////
+
+        // implementing follow user button functionality and validations
         followUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = userIdTextArea.getText();
-                if (!controller.userExists(id)) {
+                if (controller.userExists(id)) {
                     JOptionPane.showMessageDialog(null, "User doesn't exist");
                 } else {
                     followingList.addElement(id);
                     userIdTextArea.setText("");
                     user.addFollowings(id);
                     table.get(id).addFollower(userName);
-                    table.get(id).addObserver(AdminControlPanel.getHashUIValue(userName));
+                    table.get(id).addObserver(AdminControlPanel.getHashValue(userName));
                 }
             }
         });
-        ///////////////////////////////////
     }
 
-    //////////////////////
     public void post(String message) {
         tweets.addElement(message);
     }
-    /////////////////////
+
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
-
-    }
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-        $$$setupUI$$$();
+        if (arg instanceof String) {
+            userMessage = (String) arg;
+            post(userMessage);
+        }
     }
 
     /**
@@ -153,7 +114,7 @@ public class UserViewPanel extends JFrame implements Observer {
      */
     private void $$$setupUI$$$() {
         panel2 = new JPanel();
-        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 1, new Insets(1, 1, 1, 1), 1, 1, true, true));
+        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 1, new Insets(1, 1, 1, 1), 1, 1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -161,7 +122,7 @@ public class UserViewPanel extends JFrame implements Observer {
         panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         userIdTextArea = new JTextArea();
-        panel3.add(userIdTextArea, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        panel3.add(userIdTextArea, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -174,14 +135,14 @@ public class UserViewPanel extends JFrame implements Observer {
         newsFeedListView = new JList();
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         newsFeedListView.setModel(defaultListModel1);
-        newsFeedPanel.add(newsFeedListView, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        newsFeedPanel.add(newsFeedListView, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 50), null, 0, false));
         currentFollowingPanel = new JPanel();
         currentFollowingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(currentFollowingPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         currentFollowingListView = new JList();
         final DefaultListModel defaultListModel2 = new DefaultListModel();
         currentFollowingListView.setModel(defaultListModel2);
-        currentFollowingPanel.add(currentFollowingListView, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        currentFollowingPanel.add(currentFollowingListView, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel5, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -193,7 +154,7 @@ public class UserViewPanel extends JFrame implements Observer {
         panel6.add(tweetMessagePanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         tweetMessageTextArea = new JTextArea();
         tweetMessageTextArea.setText("");
-        tweetMessagePanel.add(tweetMessageTextArea, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        tweetMessagePanel.add(tweetMessageTextArea, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel6.add(panel7, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -209,8 +170,12 @@ public class UserViewPanel extends JFrame implements Observer {
         return panel2;
     }
 
-    //    public void accept(Visitor visitor) {
-//        visitor.visit(this);
+    //    private void createUIComponents() {
+//        JScrollPane scrollPane1 = new JScrollPane(currentFollowingListView);
+//        JScrollPane scrollPane2 = new JScrollPane(newsFeedListView);
+//
+//        currentFollowingPanel.add(scrollPane1);
+//        newsFeedPanel.add(scrollPane2);
 //    }
 
 }

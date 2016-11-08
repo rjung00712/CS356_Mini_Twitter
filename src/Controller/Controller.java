@@ -12,6 +12,7 @@ import com.sun.tools.corba.se.idl.constExpr.Positive;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,36 +54,6 @@ public class Controller implements Visitor {
         return instance;
     }
 
-//    private void init() {
-//
-//        root = new DefaultMutableTreeNode(ROOT);
-//
-//        UserComponent admin = new UserLeaf("admin");
-//        UserComponent cs356 = new UserComposite("cs356");
-//        UserComponent richard = new UserLeaf("Richard");
-//
-//        ROOT.add(admin);
-//        ROOT.add(cs356);
-//        cs356.add(richard);
-//
-//        DefaultMutableTreeNode sub1 = new DefaultMutableTreeNode("sub1");
-////
-////
-////        UserComposite cs356 = new UserComposite("cs356");
-//        cs356.add(new UserLeaf("Rich"));
-//        cs356.add(new UserComposite("cs408"));
-//
-//        sub1.add(new DefaultMutableTreeNode(cs356));
-//        sub1.add(new DefaultMutableTreeNode());
-////
-//        root.add(sub1);
-////
-////        List<UserComponent> followers = cs356.getFollowers();
-//
-////        adminPanel.setTree(root);
-//
-//    }
-
     // add to group total per visit
     @Override
     public void visit(AdminControlPanel adminControlPanel) { groupTotal++; }
@@ -102,23 +73,24 @@ public class Controller implements Visitor {
     // returns total number of users
     @Override
     public int getUserTotal() { return userTotal; }
-//
-//    // returns total number of groups
-//    @Override
-//    public int getGroupTotal() { return groupTotal; }
-//
-//    // returns total number of messages
-//    @Override
-//    public int getMessageTotal() { return messageTotal; }
 
+    // returns total number of groups
+    @Override
+    public int getGroupTotal() { return groupTotal; }
+
+    // returns total number of messages
+    @Override
+    public int getMessageTotal() { return messageTotal; }
 
     @Override
     public int getPositiveMessages() {
         return positiveMessageTotal;
     }
 
-    public void findPositivePercentage() {
-        positivePercentage = (double)positiveMessageTotal / (double)messageTotal * 100;
+    public String findPositivePercentage() {
+        String positivePercentage = new DecimalFormat("##.##")
+                .format((double)positiveMessageTotal / (double)messageTotal * 100);
+        return positivePercentage;
     }
 
     // adds user to list of users
