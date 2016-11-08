@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.Visitable;
-import Model.Visitor;
+import Visitor.Visitable;
+import Visitor.Visitor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

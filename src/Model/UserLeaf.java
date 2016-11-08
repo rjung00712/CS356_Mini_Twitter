@@ -1,8 +1,9 @@
 package Model;
 
+import Visitor.Visitor;
+
 import javax.security.auth.Subject;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;

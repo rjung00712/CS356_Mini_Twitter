@@ -1,22 +1,17 @@
 package Controller;
 
 import GUI.Panels.UserViewPanel;
-import Model.Visitor;
+import Visitor.Visitor;
 
 import GUI.Panels.AdminControlPanel;
 import Model.UserComponent;
 import Model.UserComposite;
 import Model.UserLeaf;
-import com.sun.tools.classfile.ReferenceFinder;
-import com.sun.tools.corba.se.idl.constExpr.Positive;
 
-import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.M;
 
 /**
  * Singleton class with Double Checked Locking instantiation

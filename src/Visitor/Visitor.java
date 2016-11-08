@@ -1,8 +1,9 @@
-package Model;
+package Visitor;
 
 import Controller.PositiveMessages;
 import GUI.Panels.AdminControlPanel;
 import GUI.Panels.UserViewPanel;
+import Model.UserLeaf;
 import com.sun.tools.corba.se.idl.constExpr.Positive;
 
 /**
