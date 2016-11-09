@@ -1,6 +1,7 @@
 package Model;
 
 import Visitor.Visitor;
+import Visitor.Visitable;
 
 import javax.security.auth.Subject;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -12,12 +13,10 @@ import java.util.Observer;
 /**
  * Created by Richard on 11/3/16.
  */
-public class UserLeaf extends Observable implements UserComponent, Observer {
+public class UserLeaf extends Observable implements UserComponent, Visitable, Observer {
     private String userId;
 
-    //////////////////////////////
     private String message;
-    ///////////////////////////
 
     private List<String> followers = new ArrayList<>();
     private List<String> followings = new ArrayList<>();
@@ -53,12 +52,9 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
 
     }
 
-    //////////////////
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-    //////////////
-
 
     // adds a follower to user's list of followers
     public void addFollower(String follower) {
@@ -85,13 +81,11 @@ public class UserLeaf extends Observable implements UserComponent, Observer {
         return this.newsFeed;
     }
 
-    /////////////////////
-    public void setFeed(String tweet) {
+    // updates news feed and ends to observers
+    public void upDateFeed(String tweet) {
         this.message = userId + ": " + tweet;
-        setChanged();
-        notifyObservers(message);
+        this.notifyObservers();
     }
-    //////////////////
 
     public void add(DefaultMutableTreeNode node) {
         node.add(new DefaultMutableTreeNode(this.userId));

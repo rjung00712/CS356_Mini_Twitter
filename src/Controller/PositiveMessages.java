@@ -22,10 +22,4 @@ public class PositiveMessages implements Visitable {
     public boolean hasPositive(String message) {
         return positiveWords.contains(message) ? true : false;
     }
-//    @Override
-//    public void checkMessage(String message) {
-//        if(hasPositive(String message)) {
-//            accept(Controller.getInstance());
-//        }
-//    }
 }

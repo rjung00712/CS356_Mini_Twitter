@@ -1,10 +1,9 @@
 package Visitor;
 
+import Controller.Controller;
 import Controller.PositiveMessages;
-import GUI.Panels.AdminControlPanel;
 import GUI.Panels.UserViewPanel;
 import Model.UserLeaf;
-import com.sun.tools.corba.se.idl.constExpr.Positive;
 
 /**
  * Created by Richard on 11/5/16.
@@ -15,9 +14,9 @@ public interface Visitor {
 
     public void visit(UserViewPanel userViewPanel);
 
-    public void visit(AdminControlPanel adminControlPanel);
-
     public void visit(PositiveMessages positiveMessages);
+
+    public void visit(Controller controller);
 
     public int getPositiveMessages();
 

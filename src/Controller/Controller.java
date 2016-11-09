@@ -2,6 +2,7 @@ package Controller;
 
 import GUI.Panels.UserViewPanel;
 import Visitor.Visitor;
+import Visitor.Visitable;
 
 import GUI.Panels.AdminControlPanel;
 import Model.UserComponent;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * Created by Richard on 11/5/16.
  */
-public class Controller implements Visitor {
+public class Controller implements Visitor, Visitable {
     // singleton instance of Controller class
     private static Controller instance = null;
 
@@ -51,7 +52,7 @@ public class Controller implements Visitor {
 
     // add to group total per visit
     @Override
-    public void visit(AdminControlPanel adminControlPanel) { groupTotal++; }
+    public void visit(Controller adminControlPanel) { groupTotal++; }
 
     // add to message total per visit
     @Override
@@ -104,5 +105,10 @@ public class Controller implements Visitor {
     // checks if group already exists
     public boolean groupExists(String id) {
         return (listofGroups.contains(id) ? true : false);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

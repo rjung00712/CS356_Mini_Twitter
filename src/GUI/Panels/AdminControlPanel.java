@@ -4,6 +4,8 @@ import Controller.Controller;
 import Model.UserComponent;
 import Model.UserComposite;
 import Model.UserLeaf;
+import Visitor.Visitable;
+import Visitor.Visitor;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,7 +27,7 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
  * <p>
  * Created by Richard on 11/2/16.
  */
-public class AdminControlPanel extends JFrame {
+public class AdminControlPanel extends JFrame implements Visitable {
     // private instance initialized to null
     private static AdminControlPanel instance = null;
 
@@ -212,6 +214,11 @@ public class AdminControlPanel extends JFrame {
         tree = new JTree(treeModel);
         JScrollPane jScrollPane = new JScrollPane(tree);
         jTreePanel.add(jScrollPane, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+
     }
 
     {
