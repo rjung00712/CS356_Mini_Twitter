@@ -1,7 +1,6 @@
 package GUI.Panels;
 
 import Controller.Controller;
-import Model.UserComponent;
 import Model.UserComposite;
 import Model.UserLeaf;
 import Visitor.Visitable;
@@ -12,13 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.lang.*;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 /**
  * This is the GUI panel and its attributes for the admin
@@ -27,7 +23,7 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
  * <p>
  * Created by Richard on 11/2/16.
  */
-public class AdminControlPanel extends JFrame implements Visitable {
+public class AdminControlPanel extends JFrame implements Visitable, Observer {
     // private instance initialized to null
     private static AdminControlPanel instance = null;
 
@@ -201,8 +197,8 @@ public class AdminControlPanel extends JFrame implements Visitable {
         });
     }
 
-    public static UserLeaf getHashValue(String key) {
-        return userTable.get(key);
+    public static UserViewPanel getHashValue(String key) {
+        return userViews.get(key);
     }
 
     public JTree getTree() {
@@ -218,6 +214,11 @@ public class AdminControlPanel extends JFrame implements Visitable {
 
     @Override
     public void accept(Visitor visitor) {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 

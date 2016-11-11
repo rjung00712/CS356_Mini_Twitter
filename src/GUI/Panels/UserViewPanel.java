@@ -198,8 +198,4 @@ public class UserViewPanel extends JFrame implements Observer {
     public JComponent $$$getRootComponent$$$() {
         return panel2;
     }
-
-
-    //
-
 }

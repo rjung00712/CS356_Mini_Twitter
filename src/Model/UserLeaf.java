@@ -13,7 +13,7 @@ import java.util.Observer;
 /**
  * Created by Richard on 11/3/16.
  */
-public class UserLeaf extends Observable implements UserComponent, Visitable, Observer {
+public class UserLeaf extends Observable implements UserComponent, Visitable {
     private String userId;
 
     private String message;
@@ -38,19 +38,15 @@ public class UserLeaf extends Observable implements UserComponent, Visitable, Ob
         throw new UnsupportedOperationException("can't add user to user!");
     }
 
-    public void update(Subject subject) {
-
-    }
-
     @Override
     public String toString() {
         return this.userId;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
+//    @Override
+//    public void update(Observable o, Object arg) {
+//
+//    }
 
     public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -84,7 +80,8 @@ public class UserLeaf extends Observable implements UserComponent, Visitable, Ob
     // updates news feed and ends to observers
     public void upDateFeed(String tweet) {
         this.message = userId + ": " + tweet;
-        this.notifyObservers();
+        setChanged();
+        notifyObservers(message);
     }
 
     public void add(DefaultMutableTreeNode node) {

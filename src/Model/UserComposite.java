@@ -1,14 +1,18 @@
 package Model;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 /**
  * Created by Richard on 11/3/16.
  */
-public class UserComposite implements UserComponent {
+public class UserComposite implements UserComponent, Observer, Observable {
 
     private List<String> followers;
     private String id;
@@ -55,5 +59,20 @@ public class UserComposite implements UserComponent {
 
     public void add(DefaultTreeModel treeModel, DefaultMutableTreeNode root, DefaultMutableTreeNode subroot) {
         treeModel.insertNodeInto(subroot, root, 0);
+    }
+
+    @Override
+    public void update(java.util.Observable o, Object arg) {
+
+    }
+
+    @Override
+    public void addListener(InvalidationListener listener) {
+
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+
     }
 }
